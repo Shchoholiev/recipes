@@ -16,10 +16,12 @@ public class Mapper {
     }
 
     public RecipeDto Map(Recipe recipe) {
-        return new RecipeDto(recipe.getId(), recipe.getName(), recipe.getText(), Map(recipe.getCategory()));
+        return new RecipeDto(recipe.getId(), recipe.getName(), recipe.getIngredients(), recipe.getText(),
+                recipe.getThumbnail(), Map(recipe.getCategory()));
     }
 
     public Recipe Map(RecipeDto recipe) {
-        return new Recipe(recipe.getId(), recipe.getName(), recipe.getText(), Map(recipe.getCategory()));
+        return new Recipe(recipe.getId(), recipe.getName(), recipe.getIngredients(), recipe.getText(),
+                recipe.getThumbnail(), Map(recipe.getCategory()));
     }
 }
