@@ -40,10 +40,10 @@ public class Mapper {
 
     public PaginationWrapper<RecipeDto> MapRecipes(PaginationWrapper<Recipe> source) {
         return new PaginationWrapper<RecipeDto>(
-                source.getItems().stream().map(s ->
+                source.getItems() != null ? source.getItems().stream().map(s ->
                         new RecipeDto(s.getId(), s.getName(), s.getIngredients(), s.getText(),
                                 s.getThumbnail(), Map(s.getCategory()))
-                ).collect(Collectors.toList()),
+                ).collect(Collectors.toList()) : Collections.emptyList(),
                 source.getTotalCount()
         );
     }

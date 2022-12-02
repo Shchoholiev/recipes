@@ -38,10 +38,8 @@ public class CategoriesRepository implements ICategoriesRepository {
 
     @Override
     public Category getCategory(int id) {
-        var query = MessageFormat.format(
-                "SELECT * FROM dbo.Categories WHERE Id = {0}"
-                , id);
-        var entities = _jdbcTemplate.query(query, BeanPropertyRowMapper.newInstance(Category.class));
+        var query = "SELECT * FROM dbo.Categories WHERE Id = ?";
+        var entities = _jdbcTemplate.query(query, new Object[] { id }, BeanPropertyRowMapper.newInstance(Category.class));
         return entities.get(0);
     }
 
@@ -58,18 +56,11 @@ public class CategoriesRepository implements ICategoriesRepository {
                 "FROM dbo.Categories\n" +
                 "FOR JSON PATH\n";
 
-        var queryResult = _jdbcTemplate.queryForList(query, new Object[]{ pageSize * (pageNumber - 1), pageSize});
-        if (!queryResult.isEmpty()) {
-            var text = queryResult.get(0).values().stream().findFirst();
-            if (text.isPresent()) {
-                var json = ((String)text.get());
-                json = json.substring(1, json.length() - 1);
-                var entities = _mapper.fromJson(json, new TypeToken<PaginationWrapper<Category>>(){});
-                return entities;
-            }
-        }
-
-        return new PaginationWrapper<Category>();
+        var json = _jdbcTemplate.queryForObject(query,
+                new Object[]{ pageSize * (pageNumber - 1), pageSize}, String.class);
+        json = json.substring(1, json.length() - 1);
+        var entities = _mapper.fromJson(json, new TypeToken<PaginationWrapper<Category>>(){});
+        return entities;
     }
 
     @Override
