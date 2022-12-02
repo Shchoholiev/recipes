@@ -1,17 +1,18 @@
 package com.shchoholiev.recipes.application.interfaces.services;
 
 import com.shchoholiev.recipes.application.models.dtos.CategoryDto;
+import com.shchoholiev.recipes.domain.common.PaginationWrapper;
 
 import java.util.List;
 
 public interface ICategoriesService {
-    void Add(CategoryDto category);
+    void add(CategoryDto category);
 
-    CategoryDto GetCategory(int id);
+    CategoryDto getCategory(int id);
 
-    List<CategoryDto> GetPage(int pageNumber, int pageSize);
+    PaginationWrapper<CategoryDto> getPage(int pageNumber, int pageSize);
 
-    void Update(CategoryDto category);
+    void update(int id, CategoryDto category);
 
-    void Delete(int id);
+    void delete(int id);
 }

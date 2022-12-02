@@ -1,9 +1,13 @@
 package com.shchoholiev.recipes.domain.entities;
 
 import com.shchoholiev.recipes.domain.common.EntityBase;
+import jakarta.persistence.Entity;
 
+//@Entity
 public class Category extends EntityBase {
-    public String name;
+    private String name;
+
+    public Category() { }
 
     public Category(int id, String name) {
         super(id);
