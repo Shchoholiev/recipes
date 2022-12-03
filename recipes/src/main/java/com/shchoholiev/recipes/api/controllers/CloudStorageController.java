@@ -13,6 +13,7 @@ import java.io.IOException;
 
 @RestController
 @RequestMapping("api/cloud-storage")
+@CrossOrigin
 public class CloudStorageController {
 
     @Autowired
