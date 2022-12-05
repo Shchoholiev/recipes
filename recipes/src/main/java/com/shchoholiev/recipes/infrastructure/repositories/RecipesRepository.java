@@ -82,7 +82,7 @@ public class RecipesRepository implements IRecipesRepository {
                 new Object[]{ pageSize * (pageNumber - 1), pageSize}, String.class);
         json = json.substring(1, json.length() - 1);
         var entity = _mapper.fromJson(json, new TypeToken<PaginationWrapper<Recipe>>(){});
-        entity.setPagesCount(Math.ceilDiv(entity.getTotalCount(), pageSize));
+        entity.setPagesCount((int)Math.ceil(Double.valueOf(entity.getTotalCount()) / Double.valueOf(pageSize)));
         return entity;
     }
 
@@ -113,7 +113,7 @@ public class RecipesRepository implements IRecipesRepository {
             var json = _jdbcTemplate.queryForObject(query, String.class);
             json = json.substring(1, json.length() - 1);
             var entities = _mapper.fromJson(json, new TypeToken<PaginationWrapper<Recipe>>(){});
-            entities.setPagesCount(Math.ceilDiv(entities.getTotalCount(), pageSize));
+            entities.setPagesCount((int)Math.ceil(Double.valueOf(entities.getTotalCount()) / Double.valueOf(pageSize)));
             return entities;
         } catch (Exception e ){
             var a = 1;
@@ -146,7 +146,7 @@ public class RecipesRepository implements IRecipesRepository {
         var json = _jdbcTemplate.queryForObject(query, String.class);
         json = json.substring(1, json.length() - 1);
         var entities = _mapper.fromJson(json, new TypeToken<PaginationWrapper<Recipe>>(){});
-        entities.setPagesCount(Math.ceilDiv(entities.getTotalCount(), pageSize));
+        entities.setPagesCount((int)Math.ceil(Double.valueOf(entities.getTotalCount()) / Double.valueOf(pageSize)));
         return entities;
     }
 

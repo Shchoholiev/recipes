@@ -60,7 +60,7 @@ public class CategoriesRepository implements ICategoriesRepository {
                 new Object[]{ pageSize * (pageNumber - 1), pageSize}, String.class);
         json = json.substring(1, json.length() - 1);
         var entities = _mapper.fromJson(json, new TypeToken<PaginationWrapper<Category>>(){});
-        entities.setPagesCount(Math.ceilDiv(entities.getTotalCount(), pageSize));
+        entities.setPagesCount((int)Math.ceil(Double.valueOf(entities.getTotalCount()) / Double.valueOf(pageSize)));
         return entities;
     }
 
