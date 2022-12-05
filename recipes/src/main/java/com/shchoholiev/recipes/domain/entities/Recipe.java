@@ -16,7 +16,7 @@ public class Recipe extends EntityBase {
 
     public Recipe() { }
 
-    public Recipe(int id, String name, String text, String ingredients, String thumbnail, Category category) {
+    public Recipe(int id, String name, String ingredients, String text, String thumbnail, Category category) {
         super(id);
         this.name = name;
         this.text = text;

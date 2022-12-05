@@ -24,7 +24,7 @@ public class Mapper {
                 source.getItems() != null ? source.getItems().stream().map(c ->
                         new CategoryDto(c.getId(), c.getName())
                 ).collect(Collectors.toList()) : Collections.emptyList(),
-                source.getTotalCount()
+                source.getPagesCount()
         );
     }
 
@@ -44,7 +44,7 @@ public class Mapper {
                         new RecipeDto(s.getId(), s.getName(), s.getIngredients(), s.getText(),
                                 s.getThumbnail(), Map(s.getCategory()))
                 ).collect(Collectors.toList()) : Collections.emptyList(),
-                source.getTotalCount()
+                source.getPagesCount()
         );
     }
 }

@@ -20,7 +20,7 @@ public class CloudStorageController {
     private ICloudStorageService _cloudStorageService;
 
     @PostMapping("/upload/{containerName}")
-    public Object addCategory(@PathVariable String containerName, @RequestBody MultipartFile file) throws IOException {
+    public Object upload(@PathVariable String containerName, @RequestBody MultipartFile file) throws IOException {
         var url = _cloudStorageService.uploadFile(containerName, file.getOriginalFilename(), file.getInputStream());
         return new Object() { public String link = url; };
     }
