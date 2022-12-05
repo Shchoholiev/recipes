@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import RecipesService from './RecipesService';
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Pagination from '../shared/Pagination';
 
 export default function Recipes() {
@@ -34,7 +34,7 @@ export default function Recipes() {
         <article>
             <div className='d-flex justify-content-between mb-3'>
                 <h3 className='m-0'>Recipes</h3>
-                <a href='/recipes/add' className='btn btn-primary'>Add Recipe</a>
+                <Link to='/recipes/add' className='btn btn-primary'>Add Recipe</Link>
             </div>
             <table className="table">
                 <thead>
