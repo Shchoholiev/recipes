@@ -31,7 +31,7 @@ jobs:
       with:
         push: true
         tags: shrecipes.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_4f4265ac19cd4b6d8458efa979266309 }}/recipes-api:${{ github.sha }}
-        file: ./Dockerfile
+        file: ./recipes/Dockerfile
 
   deploy:
     runs-on: ubuntu-latest
