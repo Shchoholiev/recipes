@@ -1,7 +1,7 @@
 FROM node:16-alpine AS builder
 WORKDIR /app
-COPY package.json package.json
-COPY yarn.lock yarn.lock
+COPY ./recipesweb/package.json package.json
+COPY ./recipesweb/yarn.lock yarn.lock
 RUN yarn install --production
 COPY . .
 RUN yarn build
