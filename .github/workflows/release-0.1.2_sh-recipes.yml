@@ -1,0 +1,51 @@
+# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
+# More GitHub Actions for Azure: https://github.com/Azure/actions
+
+name: Build and deploy container app to Azure Web App - sh-recipes
+
+on:
+  push:
+    branches:
+      - release/0.1.2
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: 'ubuntu-latest'
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v1
+
+    - name: Log in to registry
+      uses: docker/login-action@v1
+      with:
+        registry: https://shrecipes.azurecr.io/
+        username: ${{ secrets.AzureAppService_ContainerUsername_7533469133c0453e9e2317a60f95bdf2 }}
+        password: ${{ secrets.AzureAppService_ContainerPassword_b0a5f651e8b94d278431bf81ece094cb }}
+
+    - name: Build and push container image to registry
+      uses: docker/build-push-action@v2
+      with:
+        push: true
+        tags: shrecipes.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_7533469133c0453e9e2317a60f95bdf2 }}/recipes-app-small:${{ github.sha }}
+        file: ./Dockerfile
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    environment:
+      name: 'production'
+      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+
+    steps:
+    - name: Deploy to Azure Web App
+      id: deploy-to-webapp
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: 'sh-recipes'
+        slot-name: 'production'
+        publish-profile: ${{ secrets.AzureAppService_PublishProfile_1d4ed8cd9e6f488a9668a989466190d5 }}
+        images: 'shrecipes.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_7533469133c0453e9e2317a60f95bdf2 }}/recipes-app-small:${{ github.sha }}'
