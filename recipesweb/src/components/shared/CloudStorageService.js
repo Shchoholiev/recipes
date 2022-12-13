@@ -1,6 +1,6 @@
 const CloudStorageService = {
 
-    baseUrl: "http://localhost:8080/api/cloud-storage",
+    baseUrl: "https://shch-recipes-api.azurewebsites.net/api/cloud-storage",
 
     upload: function(blobContainer, file) {
         var formData = new FormData();

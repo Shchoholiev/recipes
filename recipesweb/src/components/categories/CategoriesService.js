@@ -1,6 +1,6 @@
 const CategoriesService = {
 
-    baseUrl: "http://localhost:8080/api/categories",
+    baseUrl: "https://shch-recipes-api.azurewebsites.net/api/categories",
 
     getPage: function(pageNumber) {
         return fetch(`${this.baseUrl}/page/${pageNumber}`, {
