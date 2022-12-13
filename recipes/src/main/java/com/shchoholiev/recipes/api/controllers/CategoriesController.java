@@ -26,6 +26,11 @@ public class CategoriesController {
         return _categoriesService.getPage(pageNumber, 10);
     }
 
+    @GetMapping("page/{pageNumber}/{filter}")
+    public PaginationWrapper<CategoryDto> getCategoriesPage(@PathVariable int pageNumber, @PathVariable String filter){
+        return _categoriesService.getPage(pageNumber, 10, filter);
+    }
+
     @PostMapping
     public void addCategory(@RequestBody CategoryDto categoryDto){
         _categoriesService.add(categoryDto);
