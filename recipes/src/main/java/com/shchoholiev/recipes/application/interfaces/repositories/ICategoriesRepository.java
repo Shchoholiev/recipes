@@ -12,6 +12,8 @@ public interface ICategoriesRepository {
 
     PaginationWrapper<Category> getPage(int pageNumber, int pageSize);
 
+    PaginationWrapper<Category> getPage(int pageNumber, int pageSize, String filter);
+
     void update(int id, Category category);
 
     void delete(int id);

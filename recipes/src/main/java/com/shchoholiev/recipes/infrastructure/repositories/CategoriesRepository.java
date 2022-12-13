@@ -56,8 +56,33 @@ public class CategoriesRepository implements ICategoriesRepository {
                 "FROM dbo.Categories\n" +
                 "FOR JSON PATH\n";
 
-        var json = _jdbcTemplate.queryForObject(query,
+        var jsonParts = _jdbcTemplate.queryForList(query,
                 new Object[]{ pageSize * (pageNumber - 1), pageSize}, String.class);
+        var json = String.join("", jsonParts);
+        json = json.substring(1, json.length() - 1);
+        var entities = _mapper.fromJson(json, new TypeToken<PaginationWrapper<Category>>(){});
+        entities.setPagesCount((int)Math.ceil(Double.valueOf(entities.getTotalCount()) / Double.valueOf(pageSize)));
+        return entities;
+    }
+
+    @Override
+    public PaginationWrapper<Category> getPage(int pageNumber, int pageSize, String filter) {
+        var query = MessageFormat.format("SELECT\n" +
+                "(SELECT * \n" +
+                "FROM dbo.Categories\n" +
+                "WHERE [Name] LIKE ''%{2}%'' " +
+                "ORDER BY Id\n" +
+                "OFFSET {0} ROWS\n" +
+                "FETCH NEXT {1} ROWS ONLY\n" +
+                "FOR JSON PATH) AS Items,\n" +
+                "COUNT(*) AS TotalCount\n" +
+                "FROM dbo.Categories\n" +
+                "WHERE [Name] LIKE ''%{2}%'' " +
+                "FOR JSON PATH\n"
+                , pageSize * (pageNumber - 1), pageSize, filter);
+
+        var jsonParts = _jdbcTemplate.queryForList(query, String.class);
+        var json = String.join("", jsonParts);
         json = json.substring(1, json.length() - 1);
         var entities = _mapper.fromJson(json, new TypeToken<PaginationWrapper<Category>>(){});
         entities.setPagesCount((int)Math.ceil(Double.valueOf(entities.getTotalCount()) / Double.valueOf(pageSize)));

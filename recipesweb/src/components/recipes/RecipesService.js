@@ -1,6 +1,6 @@
 const RecipesService = {
 
-    baseUrl: "https://shch-recipes-api.azurewebsites.net/api/recipes",
+    baseUrl: "https://sh-recipes-api.azurewebsites.net/api/recipes",
 
     getPage: function(pageNumber) {
         return fetch(`${this.baseUrl}/page/${pageNumber}`, {

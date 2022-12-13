@@ -37,6 +37,13 @@ public class CategoriesService implements ICategoriesService {
     }
 
     @Override
+    public PaginationWrapper<CategoryDto> getPage(int pageNumber, int pageSize, String filter) {
+        var categories = _categoriesRepository.getPage(pageNumber, pageSize, filter);
+        var dtos = _mapper.MapCategories(categories);
+        return dtos;
+    }
+
+    @Override
     public void update(int id, CategoryDto categoryDto) {
         var category = _mapper.Map(categoryDto);
         _categoriesRepository.update(id, category);
