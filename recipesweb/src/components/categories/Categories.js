@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Pagination from '../shared/Pagination';
 import CategoriesService from './CategoriesService';
 
@@ -34,7 +34,7 @@ export default function Categories() {
         <article>
             <div className='d-flex justify-content-between mb-3'>
                 <h3 className='m-0'>Categories</h3>
-                <a href='/categories/add' className='btn btn-primary'>Add Category</a>
+                <Link to='/categories/add' className='btn btn-primary'>Add Category</Link>
             </div>
             <table className="table">
                 <thead>

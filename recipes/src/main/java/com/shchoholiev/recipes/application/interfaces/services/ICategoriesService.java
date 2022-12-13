@@ -12,6 +12,8 @@ public interface ICategoriesService {
 
     PaginationWrapper<CategoryDto> getPage(int pageNumber, int pageSize);
 
+    PaginationWrapper<CategoryDto> getPage(int pageNumber, int pageSize, String filter);
+
     void update(int id, CategoryDto category);
 
     void delete(int id);

@@ -8,7 +8,6 @@ import com.shchoholiev.recipes.application.interfaces.repositories.IRecipesRepos
 import com.shchoholiev.recipes.domain.common.PaginationWrapper;
 import com.shchoholiev.recipes.domain.entities.Recipe;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -53,7 +52,8 @@ public class RecipesRepository implements IRecipesRepository {
                 "WHERE r.Id = ? " +
                 "FOR JSON PATH";
 
-        var json = _jdbcTemplate.queryForObject(query, new Object[] { id }, String.class);
+        var jsonParts = _jdbcTemplate.queryForList(query, new Object[] { id }, String.class);
+        var json = String.join("", jsonParts);
         json = json.substring(1, json.length() - 1);
         var entity = _mapper.fromJson(json, new TypeToken<Recipe>(){});
         return entity;
@@ -78,8 +78,9 @@ public class RecipesRepository implements IRecipesRepository {
                 "FROM dbo.Recipes\n" +
                 "FOR JSON PATH\n";
 
-        var json = _jdbcTemplate.queryForObject(query,
+        var jsonParts = _jdbcTemplate.queryForList(query,
                 new Object[]{ pageSize * (pageNumber - 1), pageSize}, String.class);
+        var json = String.join("", jsonParts);
         json = json.substring(1, json.length() - 1);
         var entity = _mapper.fromJson(json, new TypeToken<PaginationWrapper<Recipe>>(){});
         entity.setPagesCount((int)Math.ceil(Double.valueOf(entity.getTotalCount()) / Double.valueOf(pageSize)));
@@ -109,16 +110,12 @@ public class RecipesRepository implements IRecipesRepository {
                 "FOR JSON PATH"
                 , pageSize * (pageNumber - 1), pageSize, filter);
 
-        try {
-            var json = _jdbcTemplate.queryForObject(query, String.class);
-            json = json.substring(1, json.length() - 1);
-            var entities = _mapper.fromJson(json, new TypeToken<PaginationWrapper<Recipe>>(){});
-            entities.setPagesCount((int)Math.ceil(Double.valueOf(entities.getTotalCount()) / Double.valueOf(pageSize)));
-            return entities;
-        } catch (Exception e ){
-            var a = 1;
-        }
-        return null;
+        var jsonParts = _jdbcTemplate.queryForList(query, String.class);
+        var json = String.join("", jsonParts);
+        json = json.substring(1, json.length() - 1);
+        var entities = _mapper.fromJson(json, new TypeToken<PaginationWrapper<Recipe>>(){});
+        entities.setPagesCount((int)Math.ceil(Double.valueOf(entities.getTotalCount()) / Double.valueOf(pageSize)));
+        return entities;
     }
 
     @Override
@@ -143,7 +140,8 @@ public class RecipesRepository implements IRecipesRepository {
                         "FOR JSON PATH"
                 , pageSize * (pageNumber - 1), pageSize, categoryId);
 
-        var json = _jdbcTemplate.queryForObject(query, String.class);
+        var jsonParts = _jdbcTemplate.queryForList(query, String.class);
+        var json = String.join("", jsonParts);
         json = json.substring(1, json.length() - 1);
         var entities = _mapper.fromJson(json, new TypeToken<PaginationWrapper<Recipe>>(){});
         entities.setPagesCount((int)Math.ceil(Double.valueOf(entities.getTotalCount()) / Double.valueOf(pageSize)));
@@ -157,14 +155,9 @@ public class RecipesRepository implements IRecipesRepository {
                 "WHERE Id = ? " +
                 "SELECT @@ROWCOUNT";
 
-        try {
-            var rows = _jdbcTemplate.queryForObject(query,
-                    new Object[] { recipe.getName(), recipe.getIngredients(), recipe.getText(),
-                            recipe.getThumbnail(), recipe.getCategory().getId() , id }, Integer.class);
-            var b = 2;
-        } catch (Exception e ){
-            var a = 1;
-        }
+        var rows = _jdbcTemplate.queryForObject(query,
+                new Object[] { recipe.getName(), recipe.getIngredients(), recipe.getText(),
+                        recipe.getThumbnail(), recipe.getCategory().getId() , id }, Integer.class);
     }
 
     @Override
