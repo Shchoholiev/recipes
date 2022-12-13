@@ -9,6 +9,13 @@ import Categories from './components/categories/Categories';
 import AddCategory from './components/categories/AddCategory';
 
 function App() {
+
+  const healthCheck = setInterval(function() {
+    fetch(window.location.origin, {
+        method: "GET"
+    }).then(console.log("application is running"));
+  }, 1000 * 60 * 5);
+
   return (
     <BrowserRouter>
       <NavBar></NavBar>
