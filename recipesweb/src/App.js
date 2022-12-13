@@ -13,7 +13,7 @@ function App() {
   const healthCheck = setInterval(function() {
     fetch(window.location.origin, {
         method: "GET"
-    }).then(console.log("application is running"));
+    }).then(console.log("Application is running..."));
   }, 1000 * 60 * 5);
 
   return (
