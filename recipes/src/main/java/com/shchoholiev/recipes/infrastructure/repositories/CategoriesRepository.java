@@ -70,14 +70,14 @@ public class CategoriesRepository implements ICategoriesRepository {
         var query = MessageFormat.format("SELECT\n" +
                 "(SELECT * \n" +
                 "FROM dbo.Categories\n" +
-                "WHERE [Name] LIKE ''%{2}%'' " +
+                "WHERE [Name] LIKE N''%{2}%'' " +
                 "ORDER BY Id\n" +
                 "OFFSET {0} ROWS\n" +
                 "FETCH NEXT {1} ROWS ONLY\n" +
                 "FOR JSON PATH) AS Items,\n" +
                 "COUNT(*) AS TotalCount\n" +
                 "FROM dbo.Categories\n" +
-                "WHERE [Name] LIKE ''%{2}%'' " +
+                "WHERE [Name] LIKE N''%{2}%'' " +
                 "FOR JSON PATH\n"
                 , pageSize * (pageNumber - 1), pageSize, filter);
 
