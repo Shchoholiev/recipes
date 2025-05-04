@@ -98,7 +98,7 @@ public class RecipesRepository implements IRecipesRepository {
                         "c.[Name] AS [Category.Name]\n" +
                         "FROM dbo.Recipes AS r\n" +
                         "JOIN dbo.Categories AS c ON c.Id = r.CategoryId\n" +
-                "WHERE r.[Name] LIKE ''%{2}%'' OR Ingredients LIKE ''%{2}%'' OR [Text] LIKE ''%{2}%'' OR c.[Name] LIKE ''%{2}%''\n" +
+                "WHERE r.[Name] LIKE N''%{2}%'' OR Ingredients LIKE N''%{2}%'' OR [Text] LIKE N''%{2}%'' OR c.[Name] LIKE N''%{2}%''\n" +
                 "ORDER BY Id\n" +
                 "OFFSET {0} ROWS\n" +
                 "FETCH NEXT {1} ROWS ONLY\n" +
@@ -106,7 +106,7 @@ public class RecipesRepository implements IRecipesRepository {
                 "COUNT(*) AS TotalCount\n" +
                 "FROM dbo.Recipes AS r\n" +
                 "JOIN dbo.Categories AS c ON c.Id = r.CategoryId " +
-                "WHERE r.[Name] LIKE ''%{2}%'' OR Ingredients LIKE ''%{2}%'' OR [Text] LIKE ''%{2}%'' OR c.[Name] LIKE ''%{2}%''\n" +
+                "WHERE r.[Name] LIKE N''%{2}%'' OR Ingredients LIKE N''%{2}%'' OR [Text] LIKE N''%{2}%'' OR c.[Name] LIKE N''%{2}%''\n" +
                 "FOR JSON PATH"
                 , pageSize * (pageNumber - 1), pageSize, filter);
 
